@@ -102,35 +102,35 @@ float spXOR_N(int N, float p[]) {
 
 float saAND_N(int N, float p[]){
     float s = spAND_N(N, p);
-    return s*(1-s);
+    return 2*s*(1-s);
 }
 
 float saOR_N(int N, float p[]){
     float s = spOR_N(N, p);
-    return s*(1-s);
+    return 2*s*(1-s);
 }
 
 float saXOR_N(int N, float p[]){
     float s = spXOR_N(N, p);
-    return s*(1-s);
+    return 2*s*(1-s);
 }
 
 float saNAND_N(int N, float p[]){
     float s = spNAND_N(N, p);
-    return s*(1-s);
+    return 2*s*(1-s);
 }
 
 float saNOR_N(int N, float p[]){
     float s = spNOR_N(N, p);
-    return s*(1-s);
+    return 2*s*(1-s);
 }
 
 void signalprobs_N(int N,float p[]){
-    printf("AND  = %.5f, Switching Activity = %.5f\n", spAND_N(N,p), saAND_N(N,p));
-    printf("OR   = %.5f, Switching Activity = %.5f\n", spOR_N(N,p), saOR_N(N,p));
-    printf("XOR  = %.5f, Switching Activity = %.5f\n", spXOR_N(N,p), saXOR_N(N,p));
-    printf("NAND = %.5f, Switching Activity = %.5f\n", spNAND_N(N,p), saNAND_N(N,p));
-    printf("NOR  = %.5f, Switching Activity = %.5f\n", spNOR_N(N,p), saNOR_N(N,p));
+    printf("AND  Signal Probabilitiy = %.5f, Switching Activity = %.5f\n", spAND_N(N,p), saAND_N(N,p));
+    printf("OR   Signal Probabilitiy = %.5f, Switching Activity = %.5f\n", spOR_N(N,p), saOR_N(N,p));
+    printf("XOR  Signal Probabilitiy = %.5f, Switching Activity = %.5f\n", spXOR_N(N,p), saXOR_N(N,p));
+    printf("NAND Signal Probabilitiy = %.5f, Switching Activity = %.5f\n", spNAND_N(N,p), saNAND_N(N,p));
+    printf("NOR  Signal Probabilitiy = %.5f, Switching Activity = %.5f\n", spNOR_N(N,p), saNOR_N(N,p));
 }
 
 int main(int argc,char *argv[]){

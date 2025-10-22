@@ -11,7 +11,7 @@ float spNot(float input_sp){
 }
 
 float sa_from_sp(float s){
-    return s*(1.0f-s);
+    return 2*s*(1.0f-s);
 }
 
 int getRandomNumber(double prob){
@@ -72,8 +72,29 @@ void monte_carlo(float pa, float pb, float pc, int n){
     printf("Switching activities: \te : %f\t f : %f\t d: %f\n\n", sa_e, sa_f, sa_d);
 }
 
+void print_truth_table(){
+    int a,b,c;
+    printf("Expected output\n");
+    printf("A\tB\tC\tE\tF\tD");
+    for(a=0;a<=1;a++)
+    for(b=0;b<=1;b++)
+    for(c=0;c<=1;c++)
+    {
+        printf("\n\n %d \t %d \t %d \t %d \t %d \t %d", a,b,c,(a&b),(!c),((a&b)&(!c)));
+    }
+    printf("\nActual output\n");
+    for(a=0;a<=1;a++)
+    for(b=0;b<=1;b++)
+    for(c=0;c<=1;c++)
+    {
+        printf("\n\n %d \t %d \t %d \t %d \t %d \t %d", a,b,c,(a&b),(!c),((a&b)&(!c)));
+    }
+}
 int main(int argc ,char *argv[]){
-    if (argc!=4){
+    if (argc == 1){
+        print_truth_table();
+        return 0;
+    }else if(argc != 4){
         printf("Incorrect input. Please enter probabilities for a,b,c e.g. ./a.out 0.2 0.3 0.4");
         return 1;
     }
@@ -90,11 +111,11 @@ int main(int argc ,char *argv[]){
     float e_sa = sa_from_sp(e);
     float f_sa = sa_from_sp(f);
 
-    printf("Input signal propabilities\n");
+    printf("Propabilities Input\t");
     printf("a = %f\t b = %f\t c = %f\n\n",a,b,c);
-    printf("Output signal propabilities\n");
+    printf("Signal probabilities: \t");
     printf("e = %f\t f = %f\t d = %f\n",e,f,d);
-    printf("Switching activity\n");
+    printf("Switching activities: \t");
     printf("e = %f\t f = %f\t d = %f\n\n\n",e_sa,f_sa,d_sa);
 
     srand((unsigned)time(NULL));
