@@ -1,6 +1,6 @@
 # Microprocessors exercises
 
-This repository contains several C used to calculate or aproximate (using Monte Carlo),signal probabilities and switching activities in digital logic circuits.
+This repository contains several C programms used to calculate or aproximate (using Monte Carlo),signal probabilities and switching activities in digital logic circuits.
 
 ## Contents
 
