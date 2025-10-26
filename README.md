@@ -8,6 +8,7 @@ This repository contains several C programms used to calculate or aproximate (us
 2. **Monte Carlo Simulation for Switching Activity of a 4-input OR Gate**
 3. **Signal Probability and Switching Activity Calculator**
 4. **Monte Carlo and Truth Table Analysis for a Simple Logic Circuit**
+5. **Digital Circuit load**
 
 ---
 
@@ -17,11 +18,7 @@ This program approximates the value of π using the Monte Carlo method, a squere
 
 - Random points are generated inside a square
 - The number of points that fall inside the inscribed circle is counted.
-- The ratio of points inside the circle to total points is used to estimate π:
 
-\[
-\pi \approx 4 \times \frac{\text{points inside circle}}{\text{total points}}
-\]
 ## Execution:
 ``` bash
 gcc MCpi.c
@@ -84,3 +81,18 @@ gcc ex2.c
 
 # Compute probabilities and switching activities
 ./a.out 0.2 0.3 0.4
+```
+## 5. Digital Circuit load
+This program simulates digital circuits with logical gates loaded by certain file (circuit.txt provided as example), computes their switching activity and delivers their truth table
+```example
+NOT f c
+AND d e f
+AND e a b
+```
+- *Circuit does not need to be sorted*
+- *Top levelinputs does not need to be declared*
+### Usage
+```bash
+gcc ex3.c -lm
+./a.out circuit.txt
+```
