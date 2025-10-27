@@ -172,10 +172,14 @@ void load_circuit_struct(const char *filename) {
            num_elements, num_signals, num_inputs);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s <circuit_file>\n", argv[0]);
+        return 1;
+    }
     srand(time(NULL));
 
-    load_circuit_struct("circuit2.txt");
+    load_circuit_struct(argv[1]);
 
     printf("Top inputs: ");
     for (int i = 0; i < num_inputs; i++)
