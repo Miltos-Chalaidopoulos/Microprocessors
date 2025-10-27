@@ -9,6 +9,7 @@ This repository contains several C programms used to calculate or aproximate (us
 3. **Signal Probability and Switching Activity Calculator**
 4. **Monte Carlo and Truth Table Analysis for a Simple Logic Circuit**
 5. **Digital Circuit load**
+6. **Stress Test Monte Carlo for Digital Circuits**
 
 ---
 
@@ -95,4 +96,12 @@ AND e a b
 ```bash
 gcc ex3.c -lm
 ./a.out circuit.txt
+```
+## 6. Stress Test Monte Carlo for Digital Circuits
+This program performs a Monte Carlo stress test on a digital combinational circuit described in text file then evaluates the switching activity of the internal signals and outputs under random input vectors.
+An example circuit *(circuit2.txt)* is provided as well
+### Usage 
+```bash
+gcc stress_test_monte_carlo.c
+./a.out circuit2.txt
 ```
