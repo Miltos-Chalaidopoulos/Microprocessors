@@ -44,8 +44,8 @@ function run_testbench(ElementsTable, ElementTypes)
     ];
 
     fprintf("\nSwitching Activity Model for probabilities:\n");
-    fprintf(" a       b       c    |  e_sa    f_sa    d_sa\n");
-    fprintf("---------------------------------------------\n");
+    fprintf(" a       b       c      |  e_sa    f_sa    d_sa   avg_sa\n");
+    fprintf("--------------------------------------------------------\n");
 
     for i = 1:rows(test_cases)
         st = zeros(1,6);          % SignalsTable: [a b c e f d]
@@ -57,8 +57,12 @@ function run_testbench(ElementsTable, ElementTypes)
         sa_f = switching_activity(st(5));
         sa_d = switching_activity(st(6));
 
-        fprintf(" %.4f  %.4f  %.4f | %.4f  %.4f  %.4f\n", ...
-            st(1), st(2), st(3), sa_e, sa_f, sa_d);
+
+        sa_avg = (sa_e + sa_f + sa_d) / 3;
+
+
+        fprintf(" %.4f  %.4f  %.4f | %.4f  %.4f  %.4f  %.4f\n", ...
+            st(1), st(2), st(3), sa_e, sa_f, sa_d, sa_avg);
     endfor
 endfunction
 

@@ -43,8 +43,8 @@ function testbench_loaded()
     for i = 1:length(ElementsTable)
         fprintf(" %s_sa", ElementsTable{i}.out);
     end
-    fprintf('\n');
-    fprintf('%s\n', repmat('-',1,4*n_inputs + 3 + 8*length(ElementsTable)));
+    fprintf(" avg_sa\n");
+    fprintf('%s\n', repmat('-',1,4*n_inputs + 3 + 8*length(ElementsTable) + 8));
 
     for t = 1:size(test_cases_sa,1)
         st = zeros(1,length(signal_names));
@@ -60,10 +60,14 @@ function testbench_loaded()
             line = [line sprintf(' %.4f', st(idx))];
         end
         line = [line ' |'];
+        sa_list = zeros(1, length(ElementsTable));
         for i = 1:length(ElementsTable)
             sa = switching_activity(st(ElementsTable{i}.output));
+            sa_list(i) = sa;
             line = [line sprintf(' %.4f', sa)];
         end
+        sa_avg = mean(sa_list);
+        line = [line sprintf(' %.4f', sa_avg)];
         fprintf('%s\n', line);
     end
 end

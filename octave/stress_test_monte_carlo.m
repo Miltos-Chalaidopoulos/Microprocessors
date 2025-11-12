@@ -34,6 +34,7 @@ function stress_test_monte_carlo()
 
     [max_score, idx_max] = max(score);
     fprintf("Average number of signal switches: %.2f\n", mean(score));
+    fprintf("Variance of signal switches: %.2f\n", var(score));
     fprintf("Maximum number of signal switches: %d\n\n", max_score);
 
     fprintf("Workload that caused maximum switching activity:\n");

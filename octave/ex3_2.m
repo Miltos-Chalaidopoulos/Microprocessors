@@ -41,11 +41,13 @@ function [ElementsTable, top_inputs, SignalsTable, signal_names] = load_circuit_
         if isempty(idx_type), error('Unknown gate type: %s',type_str); end
         idx_type = idx_type(1);
 
+        % make sure eatch singals is only once in the arrays
         if ~any(strcmp(signal_names,out_name)), signal_names{end+1} = out_name; end
         for j = 1:length(input_names)
             if ~any(strcmp(signal_names,input_names{j})), signal_names{end+1} = input_names{j}; end
         end
 
+        % calculate index of signal in array signal names
         input_idx = zeros(1,length(input_names));
         for j = 1:length(input_names)
             input_idx(j) = find(strcmp(signal_names,input_names{j}));

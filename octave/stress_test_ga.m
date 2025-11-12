@@ -59,6 +59,7 @@ function [workload_max, max_score_per_gen, max_score] = stress_test_ga_single_ru
             for t = 1:L
                 SignalsTable_tmp = SignalsTable;
 
+                % find its circuit input in signal_names and put certain value
                 for j = 1:n_inputs
                     idx = find(strcmp(signal_names, top_inputs{j}));
                     SignalsTable_tmp(idx) = population(i,j,t);
@@ -66,6 +67,7 @@ function [workload_max, max_score_per_gen, max_score] = stress_test_ga_single_ru
 
                 SignalsTable_tmp = evaluate_circuit_loaded(ElementsTableSorted, SignalsTable_tmp, ElementTypes);
 
+                % find its circuit output in signal_names and put certain value
                 for k = 1:length(internal_signals)
                     idx = find(strcmp(signal_names, internal_signals{k}));
                     signal_values(t, k) = round(SignalsTable_tmp(idx));
