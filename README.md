@@ -105,3 +105,6 @@ An example circuit *(circuit2.txt)* is provided as well
 gcc stress_test_monte_carlo.c
 ./a.out circuit2.txt
 ```
+---
+## Octave file
+Octave file includes Matlab files designed for the circuit designed for the specific university course
