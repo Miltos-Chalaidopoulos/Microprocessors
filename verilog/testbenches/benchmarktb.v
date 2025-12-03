@@ -7,7 +7,6 @@ module benchmarktb;
   reg clk;
   reg reset;
 
-  // Instantiate the CPU
   MCPU #(
     .WORD_SIZE(WORD_SIZE),
     .ADDR_WIDTH(ADDR_WIDTH)
@@ -21,53 +20,38 @@ module benchmarktb;
     forever #5 clk = ~clk;
   end
 
-  integer test_num;
-  integer errors;
-
   initial begin
-    test_num = 0;
-    errors = 0;
+    $display("Starting MCPU Benchmark Program");
+    $display("Running test program...");
     
-    $display("========================================");
-    $display("Starting MCPU Comprehensive Benchmark");
-    $display("Testing all 16 registers and all instructions");
-    $display("========================================\n");
     reset = 1;
     #20;
     reset = 0;
     #20;
     load_test_program();
     #5000;
-    verify_results();
-    $display("\n========================================");
-    $display("Benchmark Complete!");
-    $display("Total Errors: %0d", errors);
-    $display("========================================");
     $stop;
   end
 
-  // Task για φόρτωση του test program στη RAM
   task load_test_program;
     begin
-      $display("Loading test program into memory...\n");
-      
-      // Test 1: SHORT_TO_REG
-      cpu_inst.raminst.mem[0]  = 16'h7001;
-      cpu_inst.raminst.mem[1]  = 16'h7112;
-      cpu_inst.raminst.mem[2]  = 16'h7223;
-      cpu_inst.raminst.mem[3]  = 16'h7334;
-      cpu_inst.raminst.mem[4]  = 16'h7445;
-      cpu_inst.raminst.mem[5]  = 16'h7556;
-      cpu_inst.raminst.mem[6]  = 16'h7667;
-      cpu_inst.raminst.mem[7]  = 16'h7778;
-      cpu_inst.raminst.mem[8]  = 16'h7889;
-      cpu_inst.raminst.mem[9]  = 16'h799A;
-      cpu_inst.raminst.mem[10] = 16'h7AAB;
-      cpu_inst.raminst.mem[11] = 16'h7BBC;
-      cpu_inst.raminst.mem[12] = 16'h7CCD;
-      cpu_inst.raminst.mem[13] = 16'h7DDE;
-      cpu_inst.raminst.mem[14] = 16'h7EEF;
-      cpu_inst.raminst.mem[15] = 16'h7FFF;
+      // Test 1: SHORT_TO_REG - Initialize all registers
+      cpu_inst.raminst.mem[0]  = 16'h7001; // R0 = 0x01
+      cpu_inst.raminst.mem[1]  = 16'h7112; // R1 = 0x12
+      cpu_inst.raminst.mem[2]  = 16'h7223; // R2 = 0x23
+      cpu_inst.raminst.mem[3]  = 16'h7334; // R3 = 0x34
+      cpu_inst.raminst.mem[4]  = 16'h7445; // R4 = 0x45
+      cpu_inst.raminst.mem[5]  = 16'h7556; // R5 = 0x56
+      cpu_inst.raminst.mem[6]  = 16'h7667; // R6 = 0x67
+      cpu_inst.raminst.mem[7]  = 16'h7778; // R7 = 0x78
+      cpu_inst.raminst.mem[8]  = 16'h7889; // R8 = 0x89
+      cpu_inst.raminst.mem[9]  = 16'h799A; // R9 = 0x9A
+      cpu_inst.raminst.mem[10] = 16'h7AAB; // R10 = 0xAB
+      cpu_inst.raminst.mem[11] = 16'h7BBC; // R11 = 0xBC
+      cpu_inst.raminst.mem[12] = 16'h7CCD; // R12 = 0xCD
+      cpu_inst.raminst.mem[13] = 16'h7DDE; // R13 = 0xDE
+      cpu_inst.raminst.mem[14] = 16'h7EEF; // R14 = 0xEF
+      cpu_inst.raminst.mem[15] = 16'h7FFF; // R15 = 0xFF
 
       // Test 2: ADD operations
       cpu_inst.raminst.mem[16] = 16'h3012; // ADD R0, R1, R2  -> R0 = R1 + R2
@@ -124,63 +108,10 @@ module benchmarktb;
       cpu_inst.raminst.mem[47] = 16'h7EAA; // SHORT_TO_REG R14, 0xAA (should execute)
 
       cpu_inst.raminst.mem[48] = 16'h8030; // BNZ R0, 0x30 (loop forever since R0=0)
-
-      $display("Test program loaded successfully.");
-      $display("Program size: 49 instructions\n");
+      
+      $display("Test program loaded into memory.");
     end
   endtask
-
-  task verify_results;
-    integer i;
-    reg [WORD_SIZE-1:0] expected;
-    reg [WORD_SIZE-1:0] actual;
-    begin
-      $display("\n========================================");
-      $display("Verifying Register File Contents");
-      $display("========================================");
-
-      for (i = 0; i < 16; i = i + 1) begin
-        actual = cpu_inst.regfileinst.R[i];
-        $display("R%0d = 0x%04h", i, actual);
-      end
-
-      $display("\n========================================");
-      $display("Verifying Memory Contents");
-      $display("========================================");
-
-      for (i = 16'hA0; i <= 16'hA3; i = i + 1) begin
-        actual = cpu_inst.raminst.mem[i];
-        $display("MEM[0x%02h] = 0x%04h", i, actual);
-      end
-
-      $display("\n========================================");
-      $display("Register File Test Summary");
-      $display("========================================");
-      $display("All 16 registers have been tested with:");
-      $display("  - SHORT_TO_REG (immediate load)");
-      $display("  - ADD operations");
-      $display("  - AND operations");
-      $display("  - OR operations");
-      $display("  - XOR operations");
-      $display("  - MOV operations");
-      $display("  - LSL operations");
-      $display("  - LSR operations");
-      $display("  - STORE_TO_MEM operations");
-      $display("  - LOAD_FROM_MEM operations");
-      $display("  - BNZ operations");
-    end
-  endtask
-
-  initial begin
-    $monitor("Time=%0t | PC=%02h | State=%s | Opcode=%h | R0=%04h R1=%04h R2=%04h R3=%04h",
-             $time, cpu_inst.pc, cpu_inst.STATE_AS_STR, 
-             cpu_inst.opcode, 
-             cpu_inst.regfileinst.R[0],
-             cpu_inst.regfileinst.R[1],
-             cpu_inst.regfileinst.R[2],
-             cpu_inst.regfileinst.R[3]);
-  end
 
 endmodule
-
 

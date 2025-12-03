@@ -47,18 +47,13 @@ begin
       cpuinst.regfileinst.R[i]=0;
     end
     
-    $display("========================================");
-    $display("LOADING BENCHMARK PROGRAM FOR LSL/LSR");
-    $display("========================================");
     
-    i=0;  cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R3, 8'd2};
-    
-
+    i=0;   cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R3, 8'd2};
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R2, 8'd9};
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R4, 8'd1};
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_LSL, R4, R4, R3};
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R4, 8'd1};
-    i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R5, 8'd8};   // R5 = 8 ??? shift
+    i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R5, 8'd8};   // R5 = 8  shift
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_LSL, R4, R4, R5};          // R4 = 1 << 8 = 256
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_ADD, R2, R2, R4};          // R2 = 9 + 256 = 265
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_LSL, R1, R2, R3};
@@ -84,46 +79,6 @@ begin
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_SHORT_TO_REG, R0, 8'd1};
     i=i+1; cpuinst.raminst.mem[i]={cpuinst.OP_BNZ, R0, 8'd31};  // Loop forever
 
-    file = $fopen("program.list","w");
-    for(i=0;i<cpuinst.raminst.RAM_SIZE;i=i+1)
-    begin
-      memi=cpuinst.raminst.mem[i];
-      
-      $fwrite(file, "%b_%b_%b_%b\n", 
-        memi[cpuinst.INSTRUCTION_SIZE-1:cpuinst.INSTRUCTION_SIZE-cpuinst.OPCODE_SIZE],
-        memi[cpuinst.OPCODE_SIZE*3-1:2*cpuinst.OPCODE_SIZE],
-        memi[cpuinst.OPCODE_SIZE*2-1:cpuinst.OPCODE_SIZE],
-        memi[cpuinst.OPCODE_SIZE-1:0]);
-    end
-    $fclose(file);
-    
-    $display("========================================");
-    $display("EXPECTED RESULTS:");
-    $display("========================================");
-    $display("TEST 1 - LSL:");
-    $display("  R2 = 265 (0x0109 = 0000_0001_0000_1001)");
-    $display("  R3 = 2");
-    $display("  R1 = R2 << R3 = 265 << 2 = 1060 (0x0424)");
-    $display("  mem[100] = 1060");
-    $display("");
-    $display("TEST 2 - LSR:");
-    $display("  R2 = 265 (0x0109)");
-    $display("  R3 = 3");
-    $display("  R6 = R2 >> R3 = 265 >> 3 = 33 (0x0021)");
-    $display("  mem[101] = 33");
-    $display("");
-    $display("TEST 3 - 5384 Split (53 and 84):");
-    $display("  R7 = 53, R8 = 84");
-    $display("  mem[102] = 53, mem[103] = 84");
-    $display("  R9 = 53, R10 = 84");
-    $display("  R11 = 53 << 2 = 212");
-    $display("  R12 = 84 >> 2 = 21");
-    $display("  mem[104] = 212, mem[105] = 21");
-    $display("");
-    $display("TEST 4 - Combine with shift:");
-    $display("  R14 = (53 << 8) + 84 = 13568 + 84 = 13652");
-    $display("  mem[106] = 13652");
-    $display("========================================");
 end
 
 endmodule
