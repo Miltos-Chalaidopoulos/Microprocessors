@@ -41,14 +41,10 @@ case(cmd)
               {CF,out} = in1 + in2;
             end
   CMD_LSL : begin
-              // Logical Shift Left: in1 << in2
-              // in2 περιέχει το πλήθος των θέσεων ολίσθησης
               out = in1 << in2;
               CF = 0;
             end
   CMD_LSR : begin
-              // Logical Shift Right: in1 >> in2
-              // in2 περιέχει το πλήθος των θέσεων ολίσθησης
               out = in1 >> in2;
               CF = 0;
             end
